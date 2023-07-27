@@ -34,6 +34,7 @@ const Search = () => {
    const Price = useSelector((state) => state.price.dataPrice)
    const Acrea = useSelector((state) => state.acrea.data)
    const dataProVince = useSelector(state => state.post.province.data)
+
    const navigate = useNavigate()
 
    const handleSubmitModal = useCallback((e, query, arrMaxMin) => {
@@ -51,10 +52,13 @@ const Search = () => {
    }
 
    const handleSearch = () => {
-      let convertGetCode = Object.entries(queries).filter(item => item[0].includes('Number')).filter(item => item[1])
-      let convertArrtoObj = Object.fromEntries(convertGetCode)
-      let queryTextArr = Object.entries(queries).filter(item => !item[0].includes('Number'))
-      let queryTextObj = Object.fromEntries(queryTextArr)
+      let convertGetCode = Object.entries(queries).filter(item => item[0].includes('Number') || item[0].includes('Code')).filter(item => item[1])
+      let convertArrtoObj = {}
+      convertGetCode.forEach(item => { convertArrtoObj[item[0]] = item[1] })
+      let queryTextArr = Object.entries(queries).filter(item => !item[0].includes('Code') || !item[0].includes('Number'))
+      let queryTextObj = {}
+      queryTextArr.forEach(item => { queryTextObj[item[0]] = item[1] })
+
       let titleTextSearch = `${queryTextObj.category ? queryTextObj.category : 'Cho thuê'} 
         ${queryTextObj.province ? queryTextObj.province : ''} 
         Giá ${queryTextObj.price ? queryTextObj.price : ''}, 
@@ -66,8 +70,8 @@ const Search = () => {
    }
    return (
       <>
-         <div className="container p-[10px] my-3 bg-[#febb02] rounded-lg  flex items-center justify-evenly cursor-pointer ">
-            <span onClick={() => handleIsShowModal(dataHome, 'category', 'Tìm tất cả')}>
+         <div className="container my-3 bg-[#febb02] rounded-lg  flex items-center justify-evenly cursor-pointer ">
+            <span className="w-full" onClick={() => handleIsShowModal(dataHome, 'category', 'Tìm tất cả')}>
                <SearchItem
                   text={queries.category}
                   iconAfter={<MdOutlineMapsHomeWork />}
@@ -75,7 +79,7 @@ const Search = () => {
                   defaultText="Tìm tất cả"
                />
             </span>
-            <span onClick={() => handleIsShowModal(dataProVince, 'province', 'Toàn quốc')}>
+            <span className="w-full" onClick={() => handleIsShowModal(dataProVince, 'province', 'Toàn quốc')}>
                <SearchItem
                   text={queries.province}
                   iconAfter={<ImLocation />}
@@ -83,7 +87,7 @@ const Search = () => {
                   defaultText="Toàn quốc"
                />
             </span>
-            <span onClick={() => handleIsShowModal(Price, "price", "Chọn Giá")}>
+            <span className="w-full" onClick={() => handleIsShowModal(Price, "price", "Chọn Giá")}>
                <SearchItem
                   text={queries.price}
                   iconbefore={<GrFormNext />}
@@ -91,7 +95,7 @@ const Search = () => {
                   defaultText="Chọn Giá"
                />
             </span>
-            <span onClick={() => handleIsShowModal(Acrea, "area", "Chọn Diện Tích")}>
+            <span className="w-full" onClick={() => handleIsShowModal(Acrea, "area", "Chọn Diện Tích")}>
                <SearchItem
                   text={queries.area}
                   iconAfter={<RiCrop2Line />}
@@ -100,15 +104,7 @@ const Search = () => {
                />
             </span>
             <button
-               className="btn_search"
-               style={{
-                  padding: '5px',
-                  backgroundColor: "lightskyblue",
-                  borderRadius: "5px",
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center'
-               }}
+               className="w-[80%] p-2 bg-[lightskyblue] rounded-md flex justify-center items-center"
                onClick={handleSearch}
             >
                <GrSearch style={{ marginBottom: "2px" }} />

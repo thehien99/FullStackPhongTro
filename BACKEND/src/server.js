@@ -6,9 +6,10 @@ import cors from "cors"
 import cookieParser from "cookie-parser";
 
 
-require('dotenv').config();
 
+require('dotenv').config();
 let app = express();
+
 app.use(cookieParser())
 app.use(cors({ origin: true }))
 //config app

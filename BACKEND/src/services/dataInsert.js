@@ -4,13 +4,13 @@ import chothuematbang from "../../data/chothuematbang.json";
 import chothuephongtro from "../../data/chothuephongtro.json";
 import nhachothue from "../../data/nhachothue.json";
 import generateCode from "../untils/generateCode";
-import {v4} from "uuid";
+import { v4 } from "uuid";
 import bcrypt from "bcryptjs";
-import {dataArea, dataPrice} from "../untils/data";
-import {getNumberFromString, getNumberFromStringV2} from "../untils/common";
+import { dataArea, dataPrice } from "../untils/data";
+import { getNumberFromString, getNumberFromStringV2 } from "../untils/common";
 
 const databody = [
-  {body: chothuecanho.body, code: "CTCH"},
+  { body: chothuecanho.body, code: "CTCH" },
   {
     body: chothuematbang.body,
     code: "CTMB",
@@ -19,7 +19,7 @@ const databody = [
     body: chothuephongtro.body,
     code: "CTPT",
   },
-  {body: nhachothue.body, code: "NCT"},
+  { body: nhachothue.body, code: "NCT" },
 ];
 
 const hashPassword = (password) =>
@@ -45,7 +45,6 @@ const insert = () =>
           let provinceCode = generateCode(
             item?.header?.address?.split(",")?.slice(-1)[0]
           ).trim();
-
           provinceCodes?.every((item) => item?.code !== provinceCode) &&
             provinceCodes.push({
               code: provinceCode,
@@ -127,7 +126,6 @@ const insert = () =>
           });
         });
       });
-
       provinceCodes?.forEach(async (item) => {
         await db.Province.create(item);
       });

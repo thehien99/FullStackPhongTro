@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import LocationItem from "../../../utils/LocationItem";
-import LocationTop from "../../../component/Location/LocationTop";
 import List from "../../../component/ListProduct/List";
 import ItemSideBar from "../../ItemSideBar/ItemSideBar";
 import { useSelector } from "react-redux";
@@ -29,13 +27,6 @@ const Rental = () => {
     <div className="container">
       <h2 className="mt-5">{categoryCurrent?.header}</h2>
       <span>{categoryCurrent?.subheader}</span>
-      <div className="container d-flex justify-content-center img-fluid mt-5">
-        {LocationItem.map((item, index) => {
-          return (
-            <LocationTop key={index} image={item.image} name={item.name} />
-          );
-        })}
-      </div>
       <div className="container">
         <div className="row">
           <div className="list_product col-8">

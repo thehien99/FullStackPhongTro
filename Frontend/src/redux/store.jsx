@@ -18,15 +18,22 @@ import categoryReducer from "./reducers/categoryReducer";
 import priceReducer from "./reducers/priceReducer";
 import acreaReducer from "./reducers/acreaReducer";
 import getUserReducer from "./reducers/userReducer"
+import localStorage from "redux-persist/es/storage";
 const persitConfig = {
   key: "auth",
-  storage,
-  whitelist: ['token', 'isLogin'],
+  storage: localStorage,
+  whitelist: ['auth'],
   stateReconciler: autoMergeLevel2,
 };
+const authConfig = {
+  key: 'auth',
+  storage: localStorage,
+  whitelist: ['token', 'isLogin']
+}
+
 
 const rootReducer = combineReducers({
-  auth: persistReducer(persitConfig, authReducer),
+  auth: persistReducer(authConfig, authReducer),
   post: postReducer,
   category: categoryReducer,
   price: priceReducer,

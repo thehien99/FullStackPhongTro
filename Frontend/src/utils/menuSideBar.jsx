@@ -1,6 +1,6 @@
 import icons from './icons'
 
-const { ImPencil2, MdOutlineLibraryBooks, BiUserPin, MdOutlineWorkHistory, AiOutlineLogout } = icons
+const { ImPencil2, MdOutlineLibraryBooks, BiUserPin, MdOutlineWorkHistory } = icons
 
 const memuSidebar = [
   {
@@ -24,7 +24,7 @@ const memuSidebar = [
   {
     id: 5,
     text: 'Liên hệ',
-    path: '/he-thong/lien-he',
+    path: '/lien-he',
     icon: <BiUserPin />
   },
   {

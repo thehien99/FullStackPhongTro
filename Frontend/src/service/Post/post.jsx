@@ -4,11 +4,11 @@ import appAxios from "../../utils/api";
 export const getAllPost = () => {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await appAxios({
+      const res = await appAxios({
         method: "get",
         url: "/getpost",
       });
-      resolve(response);
+      resolve(res);
     } catch (error) {
       reject(error);
     }
@@ -18,13 +18,13 @@ export const getAllPost = () => {
 //pagination and get post limit
 export const apiGetPostLimit = (query) => new Promise(async (resolve, reject) => {
   try {
-    const response = await appAxios({
+    const res = await appAxios({
       method: 'get',
       url: `/limit`,
       params: query
 
     })
-    resolve(response)
+    resolve(res)
   } catch (error) {
     reject(error)
   }
@@ -66,6 +66,70 @@ export const getProvince = () => {
       const res = await appAxios({
         method: 'get',
         url: '/province'
+      })
+      resolve(res)
+    } catch (error) {
+      reject(error)
+    }
+  })
+}
+
+//Createpost
+export const createPost = (payload) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const res = await appAxios({
+        method: "post",
+        url: '/createpost',
+        data: payload
+      })
+      resolve(res)
+    } catch (error) {
+      reject(error)
+    }
+  })
+}
+
+//postadmin
+export const getPostADmin = (query) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const res = await appAxios({
+        method: 'get',
+        url: '/limit-admin',
+        data: query,
+      })
+      resolve(res)
+    } catch (error) {
+      reject(error)
+    }
+  })
+}
+
+//updatepost
+export const updatePost = (payload) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const res = await appAxios({
+        method: 'put',
+        url: '/updatepost',
+        data: payload
+      })
+      resolve(res)
+    } catch (error) {
+      reject(error)
+    }
+  })
+}
+
+//deletepost 
+export const deletePost = (postId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const res = await appAxios({
+        method: 'delete',
+        url: `/delete`,
+        params: { postId }
       })
       resolve(res)
     } catch (error) {

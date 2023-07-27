@@ -1,4 +1,6 @@
 import dataInsert from '../services/dataInsert'
+//createPriceandAcrea
+//insert
 const insertData = async (req, res) => {
   try {
     let data = await dataInsert.createPriceandAcrea()

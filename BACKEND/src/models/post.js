@@ -13,7 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Post.belongsTo(models.Image, { foreignKey: 'imagesId', targetKey: 'id', as: 'images' })
       Post.belongsTo(models.Attribute, { foreignKey: 'attributesId', targetKey: 'id', as: 'attributes' })
-      Post.belongsTo(models.Seller, { foreignKey: 'userId' ,targetKey:'id',as:'sellers'})
+      Post.belongsTo(models.Seller, { foreignKey: 'userId', targetKey: 'id', as: 'sellers' })
+      Post.belongsTo(models.Overview, { foreignKey: 'overviewId', targetKey: 'id', as: 'overviews' })
+      Post.belongsTo(models.Label, { foreignKey: 'labelCode', targetKey: 'code', as: 'labels' })
     }
   };
   Post.init({

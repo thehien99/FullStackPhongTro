@@ -1,6 +1,6 @@
 import appAxios from "../../utils/api"
 
-const getCurrentUser = () => new Promise(async (resolve, reject) => {
+export const getCurrentUser = () => new Promise(async (resolve, reject) => {
   try {
     const response = await appAxios({
       method: 'get',
@@ -11,4 +11,19 @@ const getCurrentUser = () => new Promise(async (resolve, reject) => {
     reject(error)
   }
 })
-export default getCurrentUser
+
+
+export const updateUser = (payload) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await appAxios({
+        method: "put",
+        url: "/updateuser",
+        data: payload
+      })
+      resolve(response)
+    } catch (error) {
+      reject(error)
+    }
+  })
+}

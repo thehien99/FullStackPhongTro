@@ -1,5 +1,5 @@
-import { getNewPost, apiGetPostLimit, getProvince } from "../../service/Post/post";
-import { getNewPostSuccess, getProvinceSuccess, postSuccess } from "../reducers/postReducer";
+import { getNewPost, apiGetPostLimit, getProvince, getPostADmin } from "../../service/Post/post";
+import { clearEditPostSuccess, editPostSuccess, getNewPostSuccess, getPostAdminSuccess, getProvinceSuccess, postSuccess } from "../reducers/postReducer";
 
 export const postLimit = (query) => async (dispatch) => {
   try {
@@ -26,4 +26,20 @@ export const getAllProvince = async (dispatch) => {
   } catch (error) {
     console.log(error)
   }
+}
+
+export const getPostAdminLimit = (query) => async (dispatch) => {
+  try {
+    const res = await getPostADmin(query)
+    dispatch(getPostAdminSuccess(res))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const editPost = (dataEdit) => (dispatch) => {
+  dispatch(editPostSuccess(dataEdit))
+}
+export const clearEditPost = (dispatch) => {
+  dispatch(clearEditPostSuccess())
 }

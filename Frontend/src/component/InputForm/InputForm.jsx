@@ -12,10 +12,10 @@ const InputForm = ({ keyPayLoad, label, value, type, setValue, setInValids, inva
         className="outline-none bg-[#e8f0fe] p-2 rounded-md w-full"
         value={value}
         onChange={(e) => setValue((prev) => ({ ...prev, [keyPayLoad]: e.target.value }))}
-        onFocus={() => setInValids([])}
+        onFocus={() => setInValids && setInValids([])}
       />
-      {invalids.length > 0 &&
-        invalids.some((i) => i.name === keyPayLoad) && (
+      {
+        invalids?.some((i) => i.name === keyPayLoad) && (
           <small className="text-red-500 italic">
             {invalids.find((i) => i.name === keyPayLoad)?.msg}
           </small>

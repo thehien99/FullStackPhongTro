@@ -1,4 +1,4 @@
-import getCurrentUser from "../../service/Auth/users"
+import { getCurrentUser } from "../../service/Auth/users"
 import { getUserSuccess } from "../reducers/userReducer"
 
 export const getCurrent = async (dispatch) => {

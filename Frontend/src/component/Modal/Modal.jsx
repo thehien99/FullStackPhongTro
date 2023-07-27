@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import icons from "../../utils/icons";
-import { getAreaSearchRange, getNumberPrice, getNumbersArea, getPriceSearchRange } from "../../utils/commonModalSeacrh";
+import { getNumbersPrice, getNumbersArea } from "../../utils/commonModalSeacrh";
 import { memo } from "react";
 const { GrLinkPrevious } = icons
 const Modal = ({
@@ -14,15 +14,15 @@ const Modal = ({
 }) => {
   const [min, setMin] = useState(
     name === "price" && arrMinMax?.priceArr
-      ? arrMinMax.priceArr[0]
+      ? arrMinMax?.priceArr[0]
       : name === "area" && arrMinMax?.areaArr
-        ? arrMinMax.areaArr[0]
+        ? arrMinMax?.areaArr[0]
         : 0)
   const [max, setMax] = useState(
     name === "price" && arrMinMax?.priceArr
-      ? arrMinMax.priceArr[1]
+      ? arrMinMax?.priceArr[1]
       : name === "area" && arrMinMax?.areaArr
-        ? arrMinMax.areaArr[1]
+        ? arrMinMax?.areaArr[1]
         : 100)
 
   const [activeEl, setActiveEL] = useState('')
@@ -42,10 +42,10 @@ const Modal = ({
   }, [min, max])
 
 
-  const handleClickPosition = (e) => {
+  const handleClickPosition = (e, value) => {
     const trackEle = document.getElementById('track')
     const trackPosition = trackEle.getBoundingClientRect()
-    let persent = Math.round((e.clientX - trackPosition.left) * 100 / trackPosition.width, 0)
+    let persent = value ? value : Math.round((e.clientX - trackPosition.left) * 100 / trackPosition.width, 0)
     if (Math.abs(persent - min) <= (Math.abs(persent - max))) {
       setMin(persent)
     } else {
@@ -55,57 +55,53 @@ const Modal = ({
 
   const convertMintoMax = (percent) => {
     return name === "price"
-      ? (Math.ceil(Math.round(percent * 1.5) / 5) * 5) / 10
+      ? (Math.ceil(Math.round((percent * 1.5)) / 5) * 5) / 10
       : name === "area"
-        ? Math.ceil(Math.round(percent * 0.9) / 5) * 5
+        ? (Math.ceil(Math.round((percent * 0.9)) / 5) * 5)
         : 0
   }
-  const convert100to15 = (percent) => {
+  const convertto100 = (percent) => {
     let target = name === "price" ? 15 : name === "area" ? 90 : 1
     return Math.floor((percent / target) * 100)
   }
 
-  const handlePriceCodition = (code, value) => {
+  const handleActive = (code, value) => {
     setActiveEL(code)
-    let arrMin = name === "price" ? getNumberPrice(value) : getNumbersArea(value)
-    if (arrMin.length === 1) {
-      if (arrMin[0] === 1) {
+    let arrMaxMin = name === "price" ? getNumbersPrice(value) : getNumbersArea(value)
+    if (arrMaxMin.length === 1) {
+      if (arrMaxMin[0] === 1) {
         setMin(0)
-        setMax(convert100to15(1))
+        setMax(convertto100(1))
       }
-      if (arrMin[0] === 20) {
+      if (arrMaxMin[0] === 20) {
         setMin(0)
-        setMax(convert100to15(20))
+        setMax(convertto100(20))
       }
-      if (arrMin[0] === 15 || arrMin[0] === 90) {
+      if (arrMaxMin[0] === 15 || arrMaxMin[0] === 90) {
         setMin(100)
         setMax(100)
       }
     }
-    if (arrMin.length === 2) {
-      setMin(convert100to15(arrMin[0]));
-      setMax(convert100to15(arrMin[1]))
+    if (arrMaxMin.length === 2) {
+      setMin(convertto100(arrMaxMin[0]));
+      setMax(convertto100(arrMaxMin[1]))
     }
   }
 
-  const handleApplication = (e) => {
+  const handleBeforeSubmit = (e) => {
     let percent1 = min <= max ? min : max;
     let percent2 = min <= max ? max : min;
-    let arr = [convertMintoMax(percent1), convertMintoMax(percent2)]
-
+    let arr = (min === max && min === 100) ? [convertMintoMax(percent1), 99999] : [convertMintoMax(percent1), convertMintoMax(percent2)]
     handleSubmitModal(e,
       {
         [`${name}Number`]: arr,
-        [name]: `Từ ${convertMintoMax(percent1)} - ${convertMintoMax(percent2)}${name === "price" ? 'Triệu' : name === "area" ? 'm2' : ' '}`
+        [name]: `Từ ${convertMintoMax(percent1)}${(min === max && min === 100) ? "" : `-${convertMintoMax(percent2)}`} ${name === "price" ? 'Triệu' : 'm2'}${(min === max && min === 100) ? "Trở lên" : ""}`
       },
       {
         [`${name}Arr`]: [percent1, percent2]
       }
     )
   }
-
-
-
   return (
     <div onClick={(e) => { setIsShowModal(false) }}
       className="fixed z-20 bg-overlay-30 top-0 left-0 right-0 bottom-0 flex justify-center items-center "
@@ -114,7 +110,7 @@ const Modal = ({
         e.stopPropagation()
         setIsShowModal(true)
       }}
-        className="w-2/3 bg-white rounded-md " >
+        className="w-2/3 bg-white rounded-md overflow-y-auto" >
         <div className="h-[45px] px-4 flex items-center border-b border-gray-200">
           <span className="cursor-pointer"
             onClick={(e) => {
@@ -158,10 +154,18 @@ const Modal = ({
             <div className="p-12 py-20 ">
               <div >
                 <h2 className="text-center mb-5">
-                  {(min === 100 && max === 100) ? `Trên ${convertMintoMax(min)} ${name === "price" ? "Triệu" : "m2"}`
-                    : `Từ ${(min <= max
+                  {(min === 100 && max === 100)
+                    ? `Trên ${convertMintoMax(min)} ${name === "price" ? "Triệu" : "m2"}+`
+                    : `Từ ${min <= max
                       ? convertMintoMax(min)
-                      : convertMintoMax(max))}- ${Math.round(max >= min ? convertMintoMax(max) : convertMintoMax(min))}${name === "price" ? "Triệu" : "m2"}`}
+                      : convertMintoMax(max)
+                    } - ${max >= min
+                      ? convertMintoMax(max)
+                      : convertMintoMax(min)
+                    } ${name === "price"
+                      ? "Triệu"
+                      : "m2"
+                    } `}
                 </h2>
               </div>
               <div className="flex flex-col items-center justify-center relative">
@@ -180,8 +184,8 @@ const Modal = ({
                   }}
                 />
                 <input
-                  max={100}
                   min={0}
+                  max={100}
                   step={.01}
                   type="range"
                   value={max}
@@ -192,8 +196,21 @@ const Modal = ({
                   }}
                 />
                 <div className="absolute top-6 right-0 left-0 bottom-0 flex justify-between items-center">
-                  <span>0</span>
-                  <span>{name === "price" ? 'Trên 15 triệu +' : name === "area" ? 'trên 90m2' : ''}</span>
+                  <span
+                    className="cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleClickPosition(e, 0)
+                    }}
+                  >
+                    0
+                  </span>
+                  <span className="cursor-pointer" onClick={(e) => {
+                    e.stopPropagation()
+                    handleClickPosition(e, 100)
+                  }}>
+                    {name === "price" ? ' 15 triệu +' : name === "area" ? 'Trên 90m2' : ''}
+                  </span>
                 </div>
               </div>
             </div>
@@ -204,21 +221,21 @@ const Modal = ({
                   return (
                     <button
                       key={item.code}
-                      onClick={() => handlePriceCodition(item.code, item.value)}
-                      className={`text-black bg-gray-300 p-3 rounded-md cursor-pointer ${item.code === activeEl ? "bg-blue-400" : ""}`}>
+                      onClick={() => handleActive(item.code, item.value)}
+                      className={`text - black bg - gray - 300 p - 3 rounded - md cursor - pointer ${item.code === activeEl ? "bg-blue-400" : ""} `}>
                       {item.value}
                     </button>
                   )
                 })
               }
             </div>
-            {(name === "price" || name === "area") && (
-              <button
-                onClick={handleApplication}
-                type="button"
-                className="w-full bg-orange-400 mt-4 p-2 font-semibold" >
-                Áp dụng
-              </button>)
+            {(name === "price" || name === "area") && <button
+              onClick={handleBeforeSubmit}
+              type="button"
+              className="w-full bg-orange-400 mt-4 p-2 font-semibold"
+            >
+              Áp dụng
+            </button>
             }
           </div>
         )}

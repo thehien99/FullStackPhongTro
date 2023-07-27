@@ -8,7 +8,9 @@ const postReducer = createSlice({
     newpost: {
       dataNewPost: []
     },
-    province: []
+    province: [],
+    postAdmin: [],
+    postEdit: null
   },
   reducers: {
     postSuccess: (state, action) => {
@@ -19,11 +21,20 @@ const postReducer = createSlice({
     },
     getProvinceSuccess: (state, action) => {
       state.province = action.payload
+    },
+    getPostAdminSuccess: (state, action) => {
+      state.postAdmin = action.payload || []
+    },
+    editPostSuccess: (state, action) => {
+      state.postEdit = action.payload || null
+    },
+    clearEditPostSuccess: (state) => {
+      state.postEdit = null
     }
   },
 });
 
 
-export const { postSuccess, getNewPostSuccess, getProvinceSuccess } = postReducer.actions;
+export const { postSuccess, getNewPostSuccess, getProvinceSuccess, getPostAdminSuccess, editPostSuccess, clearEditPostSuccess } = postReducer.actions;
 
 export default postReducer.reducer;

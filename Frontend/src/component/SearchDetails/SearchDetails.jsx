@@ -8,9 +8,9 @@ import List from "../ListProduct/List";
 
 
 const SearchDetails = () => {
-  const dataPrice = useSelector((state) => state.price.dataPrice.data)
-  const dataAcrea = useSelector((state) => state.acrea.data.data)
-  
+  const dataPrice = useSelector((state) => state.price.dataPrice)
+  const dataAcrea = useSelector((state) => state.acrea.data)
+
   const location = useLocation()
   return (
     <div className="container">
@@ -28,7 +28,7 @@ const SearchDetails = () => {
             type='priceCode' />
           <ItemSideBar
             tilte='Xem theo diện tích'
-            content={dataPrice}
+            content={dataAcrea}
             isDouble={true}
             type='areaCode' />
           <NewPost />

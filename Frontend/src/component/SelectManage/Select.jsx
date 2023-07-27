@@ -1,6 +1,11 @@
 import React, { memo } from "react";
 
-const SelectAddress = ({ label, options, value, setValue, type, resret, name }) => {
+const SelectAddress = ({ label, options, value, setValue, type, resret, name, invalids, setInValids }) => {
+  const handleValidate = () => {
+    let valid = invalids?.find(item => item.name === name)
+    let addressValids = invalids?.find(item => item.name === "address")
+    return `${addressValids ? addressValids.msg : ''}` || `${valid ? valid.msg : ''}`
+  }
   return (
     <div className="flex flex-col  gap-2 mt-3">
       <label htmlFor="address" className="font-bold " >{label}</label>
@@ -11,7 +16,9 @@ const SelectAddress = ({ label, options, value, setValue, type, resret, name }) 
             ? setValue(e.target.value)
             : setValue((prev) => ({ ...prev, [name]: e.target.value }))}
         className="border rounded-md border-gray-800 p-1 outline-none"
-        id="address">
+        id="address"
+        onFocus={() => setInValids([])}
+      >
         <option>{`---Chọn ${label}---`}</option>
         {options?.map((item) => {
           return (
@@ -30,7 +37,7 @@ const SelectAddress = ({ label, options, value, setValue, type, resret, name }) 
                   ? item?.district_id
                   : type === 'ward'
                     ? item?.ward_id
-                    : item?.value
+                    : item?.code
               }
             >
               {type === "province"
@@ -45,6 +52,7 @@ const SelectAddress = ({ label, options, value, setValue, type, resret, name }) 
           )
         })}
       </select>
+      <small className="text-red-500">{handleValidate()}</small>
     </div >
   )
 };

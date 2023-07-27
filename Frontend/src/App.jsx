@@ -13,7 +13,8 @@ import Rental from "./component/page/Content/Rental";
 import { getAllProvince } from "./redux/actions/postActions";
 import SearchDetails from "./component/SearchDetails/SearchDetails";
 import { getCurrent } from "./redux/actions/userActions";
-import { CreatePost, System } from "./component/SystemManage";
+import { CreatePost, EditAccount, Management, System } from "./component/SystemManage";
+import ContactManage from "./component/SystemManage/ContactManage";
 
 
 
@@ -46,9 +47,12 @@ function App() {
         <Route path={configRouter.nhachothue} element={<Rental />} />
         <Route path={configRouter.seacrh} element={<SearchDetails />} />
         <Route path={configRouter.product_detail} element={<ProductDetail />} />
+        <Route path={configRouter.contact} element={<ContactManage />} />
       </Route>
       <Route path={configRouter.system} element={<System />}>
         <Route path={configRouter.createPost} element={<CreatePost />} />
+        <Route path={configRouter.Management} element={<Management />} />
+        <Route path={configRouter.editAccount} element={<EditAccount />} />
       </Route>
 
     </Routes>

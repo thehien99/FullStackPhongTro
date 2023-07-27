@@ -26,3 +26,23 @@ input[type='range']::-webkit-slider-thumb {
     border-radius: 10px;
     pointer-events: auto;
 }
+
+button.slick-prev {
+    position: absolute;
+    left: 5px;
+    z-index: 1;
+    width: 50px;
+    height: 50px;
+    border-radius: 1000%;
+
+}
+
+button.slick-next {
+    position: absolute;
+    right: 5px;
+    z-index: 1;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+
+}

@@ -15,14 +15,14 @@ const SideBar = () => {
   return (
     <div className="w-[256px] px-2 mt-3">
       <div className="flex ">
-        <img className="w-12 me-3 rounded-full" src={currentUser.avatar || avatarUser} alt="avatar" />
+        <img className="w-12 me-3 rounded-full" src={currentUser?.avatar || avatarUser} alt="avatar" />
         <div className="flex flex-col">
-          <small className="font-medium">{currentUser.name}</small>
-          <small>{currentUser.phone}</small>
+          <small className="font-medium">{currentUser?.name}</small>
+          <small>{currentUser?.phone}</small>
         </div>
       </div>
       <div className="flex flex-col py-2">
-        <span className="font-medium">{`Mã thành viên: ${currentUser.id.match(/\d/g).join('')?.slice(0, 6)}`}</span>
+        <span className="font-medium">{`Mã thành viên: ${currentUser?.id.match(/\d/g).join('')?.slice(0, 6)}`}</span>
         <span></span>
       </div>
       <div className="mt-4" >

@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-import LocationItem from "../../../utils/LocationItem";
-import LocationTop from "../../../component/Location/LocationTop";
 import List from "../../../component/ListProduct/List";
 import ItemSideBar from "../../ItemSideBar/ItemSideBar";
 import { useSelector } from "react-redux";
@@ -12,13 +10,6 @@ const HomePage = () => {
   const Acrea = useSelector((state) => state.acrea.data)
   return (
     <div>
-      <div className="container d-flex justify-content-center img-fluid  ">
-        {LocationItem.map((item, index) => {
-          return (
-            <LocationTop key={index} image={item.image} name={item.name} />
-          );
-        })}
-      </div>
       <div className="container">
         <div className="row">
           <div className="list_product col-8">

@@ -19,13 +19,13 @@ export const userLogin = (payload) => async (dispatch) => {
 export const register = (payload) => async (dispatch) => {
   try {
     const res = await apiRegister(payload)
-    const token=res.token
+    const token = res.token
     dispatch(registerSuccess(token))
   } catch (error) {
     dispatch(registerFailed(error))
   }
 }
 
-export const logOut = (dispatch, navigate) => {
+export const logOut = (dispatch) => {
   dispatch(logoutSuccess())
 }

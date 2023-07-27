@@ -4,6 +4,7 @@ import InputForm from "../../InputForm/InputForm";
 import ButtonFrom from "../../InputForm/ButtonFrom";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin, register } from "../../../redux/actions/authActions";
+import validate from "../../../utils/validatefield";
 
 const Login = () => {
   const location = useLocation()
@@ -33,56 +34,14 @@ const Login = () => {
         phone: payload.phone,
         password: payload.password
       }
-    let invalids = validate(finalPayLoad)
+    let invalids = validate(finalPayLoad, setInValids)
     if (invalids === 0) {
       isRegister
         ? dispatch(register(payload))
         : dispatch(userLogin(payload))
     }
   }
-  const validate = (payload) => {
-    let invalidFieds = 0;
-    let fields = Object.entries(payload);
-    fields.forEach((item) => {
-      if (item[1] === "") {
-        setInValids((prev) => [
-          ...prev,
-          {
-            name: item[0], msg: 'Bạn không thể bỏ qua ô này '
-          }
-        ])
-        invalidFieds++
-      }
-    })
-    fields.forEach((item) => {
-      switch (item[0]) {
-        case 'password':
-          if (item[1].length < 6) {
-            setInValids((prev) => [...prev, {
-              name: item[0],
-              msg: "Mật khẩu phải có 6 ký tự"
-            }
-            ]);
-            invalidFieds++
-          }
-          break;
-        case 'phone':
-          if (!+item[1]) {
-            setInValids((prev) => [...prev,
-            {
-              name: item[0],
-              msg: "Số điện thoại không hợp lệ"
-            }
-            ])
-            invalidFieds++
-          }
-          break;
-        default:
-          break;
-      }
-    })
-    return invalidFieds
-  }
+
   return (
     <div className='w-full flex items-center justify-center'>
       <div className='bg-white w-[600px] p-[30px] pb-[100px] mt-14 rounded-md shadow-2xl'>

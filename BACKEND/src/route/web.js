@@ -10,7 +10,7 @@ import verifyToken from "../middleware/checkAuth";
 let router = express.Router();
 
 let initWebRoutes = (app) => {
-  //Insert
+  //InsertData
   router.post("/insert", insertController.insertData);
 
   //CATEGORY
@@ -19,9 +19,20 @@ let initWebRoutes = (app) => {
   //GET POSTS
   router.get("/getpost", postController.getPosts);
   router.get("/getnewpost", postController.getAllNewPost);
+  router.get("/getpostarea", postController.getPostForArea)
 
   //CREATEPOST
-  router.post
+  router.post("/createpost", verifyToken, postController.createPost)
+
+  //UPDATE 
+  router.put("/updatepost", verifyToken, postController.updatePost)
+
+  //Delete
+  router.delete('/delete', verifyToken, postController.deletePost)
+
+  //Post management
+  router.get("/limit-admin", verifyToken, postController.getPostAdmin)
+
 
   //Pagination
   router.get("/limit", postController.postPagination);
@@ -40,6 +51,9 @@ let initWebRoutes = (app) => {
   router.post("/api/register", userController.register);
   router.use(verifyToken);
   router.get("/getuser", userController.getOneUser);
+  router.put("/updateuser", userController.updateUser)
+
+
   return app.use("/", router);
 };
 
